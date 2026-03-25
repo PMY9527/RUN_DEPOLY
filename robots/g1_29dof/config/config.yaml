@@ -6,7 +6,7 @@ FSM:
       id: 2
     Velocity:
       id: 3
-      type: RLResidual
+      type: RLBase
 
     Mimic_Dance_102: # uncomment to enable
       id: 101
@@ -65,9 +65,9 @@ FSM:
       Passive: LT + B.on_pressed
       Mimic_Dance_102: LT(2s) + down.on_pressed
       Mimic_Gangnam_Style: LT(2s) + left.on_pressed
-
     policy_dir: config/policy/velocity/residual
     cmg_dir: config/policy/velocity/cmg
+    amp_policy_dir: config/policy/velocity/amp
   Mimic_Dance_102:
     transitions: 
       Passive: LT + B.on_pressed

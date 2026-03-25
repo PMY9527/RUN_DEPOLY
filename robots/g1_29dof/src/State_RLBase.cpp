@@ -45,7 +45,7 @@ State_RLBase::State_RLBase(int state_mode, std::string state_string)
 : FSMState(state_mode, state_string) 
 {
     auto cfg = param::config["FSM"][state_string];
-    auto policy_dir = param::parser_policy_dir(cfg["policy_dir"].as<std::string>());
+    auto policy_dir = param::parser_policy_dir(cfg["amp_policy_dir"].as<std::string>());
 
     env = std::make_unique<isaaclab::ManagerBasedRLEnv>(
         YAML::LoadFile(policy_dir / "params" / "deploy.yaml"),

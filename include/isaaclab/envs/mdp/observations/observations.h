@@ -24,6 +24,44 @@ REGISTER_OBSERVATION(projected_gravity)
     return std::vector<float>(data.data(), data.data() + data.size());
 }
 
+// Yaw-removed rotation matrix tangent + normal columns (6D).
+// Equivalent to Isaac Lab: root_local_rot_tan_norm
+//   1. Extract yaw from root quaternion
+//   2. Remove yaw to get local (pitch+roll only) quaternion
+//   3. Convert to rotation matrix, return columns 0 and 2
+REGISTER_OBSERVATION(root_local_rot_tan_norm)
+{
+    auto & asset = env->robot;
+    const Eigen::Quaternionf& q = asset->data.root_quat_w;
+
+    // Extract yaw: atan2(2(wz + xy), 1 - 2(y^2 + z^2))
+    float yaw = std::atan2(
+        2.0f * (q.w() * q.z() + q.x() * q.y()),
+        1.0f - 2.0f * (q.y() * q.y() + q.z() * q.z())
+    );
+
+    // Yaw-only quaternion
+    Eigen::Quaternionf yaw_q(std::cos(yaw * 0.5f), 0.0f, 0.0f, std::sin(yaw * 0.5f));
+
+    // Remove yaw: local_q = conjugate(yaw_q) * root_q
+    Eigen::Quaternionf local_q = yaw_q.conjugate() * q;
+    Eigen::Matrix3f R = local_q.toRotationMatrix();
+
+    // tangent = col 0, normal = col 2
+    std::vector<float> obs(6);
+    obs[0] = R(0, 0); obs[1] = R(1, 0); obs[2] = R(2, 0);
+    obs[3] = R(0, 2); obs[4] = R(1, 2); obs[5] = R(2, 2);
+    return obs;
+}
+
+// Absolute joint velocities (no subtraction, unlike joint_vel_rel which is also absolute)
+REGISTER_OBSERVATION(joint_vel)
+{
+    auto & asset = env->robot;
+    auto & data = asset->data.joint_vel;
+    return std::vector<float>(data.data(), data.data() + data.size());
+}
+
 REGISTER_OBSERVATION(joint_pos)
 {
     auto & asset = env->robot;
