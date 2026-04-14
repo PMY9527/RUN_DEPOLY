@@ -1,10 +1,8 @@
 # RUN_DEPLOY
 
-C++ / ONNX Runtime deployment for the RuN residual locomotion controller on the **Unitree G1 (29 DoF)**. A single process loads two frozen ONNX graphs — a Mixture-of-Experts Conditional Motion Generator (CMG) and an LSTM residual policy — and drives the robot at 50 Hz over Unitree DDS. The CMG and policy are trained in the companion repos [`cmg_workspace`](https://github.com/PMY9527/cmg_workspace),[`rsl_rl(AR Branch`](https://github.com/PMY9527/rsl_rl/tree/AR)  and [`unitree_rl_lab`](https://github.com/PMY9527/unitree_rl_lab); this repo only runs them on hardware/simulation.
+C++ / ONNX Runtime deployment for the RuN residual locomotion controller on the **Unitree G1 (29 DoF)**. A single process loads two frozen ONNX graphs — a Mixture-of-Experts Conditional Motion Generator (CMG) and an LSTM residual policy — and drives the robot at 50 Hz over Unitree DDS. The CMG and policy are trained in the companion repos [`cmg_workspace`](https://github.com/PMY9527/cmg_workspace),[`rsl_rl(AR Branch)`](https://github.com/PMY9527/rsl_rl/tree/AR)  and [`unitree_rl_lab`](https://github.com/PMY9527/unitree_rl_lab); this repo is only for deployment on hardware/simulation.
 
 ## Build
-
-Prerequisites: Ubuntu 20.04/22.04, CMake ≥ 3.12, Unitree SDK2 installed system-wide, Eigen 3, Boost (`program_options`), `yaml-cpp`, `fmt`, `spdlog`. ONNX Runtime is vendored under `thirdparty/`.
 
 ```bash
 cd robots/g1_29dof
