@@ -54,7 +54,7 @@ public:
                 // EMA smooth command for CMG to avoid rigid snap on stop/transition
                 // Policy obs still sees the raw command; only CMG input is smoothed.
                 static std::vector<float> cmg_cmd = {0.0f, 0.0f, 0.0f};
-                constexpr float ema_alpha = 0.15f;  // ~0.13s time constant at 50Hz
+                constexpr float ema_alpha = 0.40f;
                 for (size_t i = 0; i < cmd.size(); ++i)
                     cmg_cmd[i] += ema_alpha * (cmd[i] - cmg_cmd[i]);
 
